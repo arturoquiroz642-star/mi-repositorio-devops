@@ -1,0 +1,15 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - docker build -t mi-app-devops .
+  post_build:
+    commands:
+      - mkdir -p artifact
+      - docker save mi-app-devops -o artifact/mi-app.tar
+      - cp appspec.yml artifact/
+      - cp -r scripts/ artifact/
+artifacts:
+  files:
+    - '**/*'
+  base-directory: artifact
